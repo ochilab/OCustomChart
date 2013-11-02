@@ -2,3 +2,7 @@ G:\Dropbox\Visualstudio\testGraph\OCustomChart\bin\Debug\OCustomChart.dll
 G:\Dropbox\Visualstudio\testGraph\OCustomChart\bin\Debug\OCustomChart.pdb
 G:\Dropbox\Visualstudio\testGraph\OCustomChart\obj\Debug\OCustomChart.dll
 G:\Dropbox\Visualstudio\testGraph\OCustomChart\obj\Debug\OCustomChart.pdb
+G:\Dropbox\github\OCustomChart\bin\Debug\OCustomChart.dll
+G:\Dropbox\github\OCustomChart\bin\Debug\OCustomChart.pdb
+G:\Dropbox\github\OCustomChart\obj\Debug\OCustomChart.dll
+G:\Dropbox\github\OCustomChart\obj\Debug\OCustomChart.pdb

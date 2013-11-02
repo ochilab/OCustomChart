@@ -9,6 +9,9 @@ using System.Drawing;
 namespace Ochilab.UI.Chart {
     public class OPerformanceLineChart : System.Windows.Forms.DataVisualization.Charting.Chart {
 
+
+        int count = 0;
+
         //Y軸グラフの範囲
         private int maximumY=100;
         private int minimumY=0;
@@ -33,97 +36,80 @@ namespace Ochilab.UI.Chart {
         }
 
 
-
-
         //ChartAreaCollection ChartAreas;
-        private Queue<int> dataQue = new Queue<int>();
-
-       
+        private Queue<DataPoint> dataQue = new Queue<DataPoint>();
         
         int chartIndex = 0;
 
 
 
-        public void queData(int value) {
-
+        //データを追加する
+        public void queData(DataPoint value) {
             dataQue.Enqueue(value);
             // 履歴の最大数を超えていたら、古いものを削除する
             while (dataQue.Count > maxHistory) {
                 dataQue.Dequeue();
             }
-
+            
         }
 
 
-        public void show() {
+        //表示
+        public void DrawChart() {
+
+            count++;
+
             foreach (Series s in this.Series) {
                 s.Points.Clear();
-                foreach (int value in dataQue) {
-                    // データをチャートに追加
-                    s.Points.Add(new DataPoint(0, value));
+                foreach (DataPoint dp in dataQue) {
+                    s.Points.Add(dp);                   
+                   // s.Points.Add(new DataPoint(0, value));
                 }
+
             }
         }
-
-
+        
         public OPerformanceLineChart() {
         
             this.BackColor = Color.Black;
-            // X,Y軸情報のセット関数を定義
-            Action<Axis> setAxis = (axisInfo) => {
-                // 軸のメモリラベルのフォントサイズ上限値を制限
-                axisInfo.LabelAutoFitMaxFontSize = 8;
-
-                // 軸のメモリラベルの文字色をセット
-                axisInfo.LabelStyle.ForeColor = Color.White;
-
-                // 軸タイトルの文字色をセット(今回はTitle未使用なので関係ないが...)
-                axisInfo.TitleForeColor = Color.White;
-
-                // 軸の色をセット
-                axisInfo.MajorGrid.Enabled = true;
-                axisInfo.MajorGrid.LineColor = ColorTranslator.FromHtml("#008242");
-                axisInfo.MinorGrid.Enabled = false;
-                axisInfo.MinorGrid.LineColor = ColorTranslator.FromHtml("#008242");
-            };
-
-            
-            // チャートに表示させる値の履歴を全て0クリア
-            while (dataQue.Count <= maxHistory) {
-                dataQue.Enqueue(0);
-            }
         }
 
 
+
+        private void setAxis(Axis axis) {
+                // 軸のメモリラベルのフォントサイズ上限値を制限
+                axis.LabelAutoFitMaxFontSize = 8;
+
+                // 軸のメモリラベルの文字色をセット
+                axis.LabelStyle.ForeColor = Color.White;
+
+
+                // 軸の色をセット
+                axis.MajorGrid.Enabled = true;
+                axis.MajorGrid.LineColor = ColorTranslator.FromHtml("#008242");
+                axis.MinorGrid.Enabled = false;
+                axis.MinorGrid.LineColor = ColorTranslator.FromHtml("#008242");
+            }
+
+
         public void initGraph() {
-                        
+            int i=0;
+            DataPoint dp = new DataPoint();
+            dp.SetValueXY(i.ToString(), i);
+            // チャートに表示させる値の履歴を全て0クリア
+            while (dataQue.Count <= maxHistory) {
+                dataQue.Enqueue(dp);
+                
+            }
+
             ChartAreas[chartIndex].BackColor = Color.Transparent;
 
             // チャート表示エリア周囲の余白をカットする
-            ChartAreas[chartIndex].InnerPlotPosition.Auto = false;
+            //ChartAreas[chartIndex].InnerPlotPosition.Auto = false;
             ChartAreas[chartIndex].InnerPlotPosition.Width = 100; // 100%
             ChartAreas[chartIndex].InnerPlotPosition.Height = 90;  // 90%(横軸のメモリラベル印字分の余裕を設ける)
             ChartAreas[chartIndex].InnerPlotPosition.X = 8;
             ChartAreas[chartIndex].InnerPlotPosition.Y = 0;
-
-            ChartAreas[chartIndex].Name = "chartarea" + chartIndex;
-
-
-            // X,Y軸情報のセット関数を定義
-            Action<Axis> setAxis = (axisInfo) => {
-                // 軸のメモリラベルのフォントサイズ上限値を制限
-                axisInfo.LabelAutoFitMaxFontSize = 8;
-
-                // 軸のメモリラベルの文字色をセット
-                axisInfo.LabelStyle.ForeColor = Color.White;
-
-            
-                // 軸の色をセット
-                axisInfo.MajorGrid.Enabled = true;
-                axisInfo.MajorGrid.LineColor = ColorTranslator.FromHtml("#008242");
-                axisInfo.MinorGrid.Enabled = false;
-                axisInfo.MinorGrid.LineColor = ColorTranslator.FromHtml("#008242");
-            };
 
             // X,Y軸の表示方法を定義
             setAxis(ChartAreas[chartIndex].AxisY);
@@ -131,7 +117,9 @@ namespace Ochilab.UI.Chart {
 
             ChartAreas[chartIndex].AxisX.MinorGrid.Enabled = true;
             ChartAreas[chartIndex].AxisY.Maximum = maximumY;    
-            ChartAreas[chartIndex].AxisY.Minimum = minimumY;    
+            ChartAreas[chartIndex].AxisY.Minimum = minimumY;
+
+            this.AntiAliasing = AntiAliasingStyles.None;
 
 
             // 折れ線グラフとして表示
@@ -141,7 +129,7 @@ namespace Ochilab.UI.Chart {
 
             // 凡例を非表示,各値に数値を表示しない
             Series[chartIndex].IsVisibleInLegend = false;
-            Series[chartIndex].IsValueShownAsLabel = false;
+            //Series[chartIndex].IsValueShownAsLabel = false;
 
         }
 
