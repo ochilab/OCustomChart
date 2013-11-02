@@ -7,11 +7,12 @@ using System.Windows.Forms.DataVisualization.Charting;
 using System.Drawing;
 
 namespace Ochilab.UI.Chart {
-    class OPerformanceLineChart : System.Windows.Forms.DataVisualization.Charting.Chart {
+    public class OPerformanceLineChart : System.Windows.Forms.DataVisualization.Charting.Chart {
 
         //Y軸グラフの範囲
         private int maximumY=100;
         private int minimumY=0;
+
         // 取得データの履歴
         private int maxHistory = 40;
 
@@ -87,10 +88,6 @@ namespace Ochilab.UI.Chart {
             };
 
             
-
-
-          
-
             // チャートに表示させる値の履歴を全て0クリア
             while (dataQue.Count <= maxHistory) {
                 dataQue.Enqueue(0);
@@ -99,8 +96,7 @@ namespace Ochilab.UI.Chart {
 
 
         public void initGraph() {
-
-            
+                        
             ChartAreas[chartIndex].BackColor = Color.Transparent;
 
             // チャート表示エリア周囲の余白をカットする
@@ -121,9 +117,7 @@ namespace Ochilab.UI.Chart {
                 // 軸のメモリラベルの文字色をセット
                 axisInfo.LabelStyle.ForeColor = Color.White;
 
-                // 軸タイトルの文字色をセット(今回はTitle未使用なので関係ないが...)
-                axisInfo.TitleForeColor = Color.White;
-
+            
                 // 軸の色をセット
                 axisInfo.MajorGrid.Enabled = true;
                 axisInfo.MajorGrid.LineColor = ColorTranslator.FromHtml("#008242");

@@ -1,0 +1,4 @@
+G:\Dropbox\Visualstudio\testGraph\OCustomChart\bin\Release\OCustomChart.dll
+G:\Dropbox\Visualstudio\testGraph\OCustomChart\bin\Release\OCustomChart.pdb
+G:\Dropbox\Visualstudio\testGraph\OCustomChart\obj\Release\OCustomChart.dll
+G:\Dropbox\Visualstudio\testGraph\OCustomChart\obj\Release\OCustomChart.pdb
